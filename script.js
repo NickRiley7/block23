@@ -4,11 +4,8 @@ const newPlayerFormContainer = document.getElementById('new-player-form');
 // Add your cohort name to the cohortName variable below, replacing the 'COHORT-NAME' placeholder
 const cohortName = '2309-FTB-ET-WEB-FT';
 // Use the APIURL variable for fetch requests
-const APIURL = `https://fsa-puppy-bowl.herokuapp.com/api/${cohortName}/players/`;
+const APIURL = `https://fsa-puppy-bowl.herokuapp.com/api/${cohortName}/`;
 
-const state = {
-    player: [],
-  };
 
 
 
@@ -18,28 +15,34 @@ const state = {
  */
 const fetchAllPlayers = async () => {
     try { 
-        const response = await fetch(APIURL
+        const response = await fetch(APIURL + "players"
         );
         const result = await response.json();
         console.log(result);
+        return result.data.players
     } catch (err) {
         console.error('Uh oh, trouble fetching players!', err);
     }
 };
 
+
+
 const fetchSinglePlayer = async (playerId) => {
     try { 
-        const response = await fetch(APIURL
+        const response = await fetch(APIURL + playerId
         );
         const result = await response.json();
         console.log(result);
+        return fetchSinglePlayer
         } catch (err) {
         console.error(`Oh no, trouble fetching player #${playerId}!`, err);
         }
 };
 
-const addNewPlayer = async (playerObj) => {
-    try { const response = await fetch(APIURL
+
+
+const addNewPlayer = async (playerObj) => { 
+    try { const response = await fetch(APIURL + playerObj
     ,
       {
         method: 'POST',
@@ -61,7 +64,7 @@ const addNewPlayer = async (playerObj) => {
 };
 
 const removePlayer = async (playerId) => {
-    try { const response = await fetch(APIURL
+    try { const response = await fetch(APIURL + playerId
         ,
         {
           method: 'DELETE',
@@ -100,11 +103,21 @@ const removePlayer = async (playerId) => {
  */
 const renderAllPlayers = (playerList) => {
     try { 
+         fetch(APIURL + "players");
+         (playerList => {
+            return playerList;
+        });
+        playerContainer.replaceChildren(...playerList)
+
         
     } catch (err) {
         console.error('Uh oh, trouble rendering players!', err);
     }
+    return playerList;
 };
+
+
+
     
 
 /**
@@ -124,6 +137,11 @@ const init = async () => {
     renderAllPlayers(players);
 
     renderNewPlayerForm();
+
+     return fetchAllPlayers();
+
+ 
 }
 
 init();
+
