@@ -7,8 +7,6 @@ const cohortName = '2309-FTB-ET-WEB-FT';
 const APIURL = `https://fsa-puppy-bowl.herokuapp.com/api/${cohortName}/`;
 
 
-
-
 /**
  * It fetches all players from the API and returns them
  * @returns An array of objects.
@@ -103,18 +101,16 @@ const removePlayer = async (playerId) => {
  */
 const renderAllPlayers = (playerList) => {
     try { 
-         fetch(APIURL + "players");
-         (playerList => {
-            return playerList;
-        });
+         playerList.map
         playerContainer.replaceChildren(...playerList)
-
+        
         
     } catch (err) {
         console.error('Uh oh, trouble rendering players!', err);
     }
     return playerList;
 };
+
 
 
 
@@ -134,6 +130,7 @@ const renderNewPlayerForm = () => {
 
 const init = async () => {
     const players = await fetchAllPlayers();
+    console.log(players)
     renderAllPlayers(players);
 
     renderNewPlayerForm();
